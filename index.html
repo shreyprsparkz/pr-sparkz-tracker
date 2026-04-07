@@ -712,9 +712,10 @@ async function saveToSheet() {
         rows.push([m.id, t.text, t.status, t.done.toString(), dateStr]);
       });
     });
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      body: JSON.stringify(rows)
+    const encoded = encodeURIComponent(JSON.stringify(rows));
+    await fetch(SHEET_URL + '?action=write&data=' + encoded, {
+      method: 'GET',
+      mode: 'no-cors'
     });
     showToast('Saved to Google Sheet!', 'success');
   } catch(e) {
