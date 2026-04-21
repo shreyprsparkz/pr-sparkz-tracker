@@ -6,17 +6,11 @@
 <title>PR Sparkz — Work Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#0f0f0f;--surface:#181818;--surface2:#212121;--surface3:#272727;
-    --border:#2a2a2a;--border2:#333;
-    --text:#f0f0f0;--text2:#888;--text3:#555;
-    --accent:#c8f135;--purple:#b8a4ff;--teal:#4ecdc4;--coral:#ff6b6b;
-    --amber:#ffd93d;--pink:#ff9ff3;--blue:#74b9ff;--green:#55efc4;
-    --radius:10px;--radius-lg:14px;
-  }
+  :root{--bg:#0f0f0f;--surface:#181818;--surface2:#212121;--border:#2a2a2a;--border2:#333;--text:#f0f0f0;--text2:#888;--text3:#555;--accent:#c8f135;--purple:#b8a4ff;--teal:#4ecdc4;--coral:#ff6b6b;--amber:#ffd93d;--blue:#74b9ff;--green:#55efc4;--radius:10px;--radius-lg:14px}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
   .app{display:flex;min-height:100vh}
+  /* SIDEBAR */
   .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column;gap:4px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
   .logo{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:-0.3px;padding:0 8px 20px;border-bottom:1px solid var(--border);margin-bottom:8px}
   .logo span{color:var(--text2);font-weight:300}
@@ -25,6 +19,7 @@
   .nav-item.active{background:var(--surface2);color:var(--text);border-color:var(--border2)}
   .nav-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
   .nav-section{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:12px 10px 4px}
+  /* MAIN */
   .main{margin-left:220px;flex:1;padding:32px;min-height:100vh}
   .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
   .page-title{font-size:22px;font-weight:600;letter-spacing:-0.5px}
@@ -33,18 +28,22 @@
   .sync-btn{background:var(--accent);color:#0f0f0f;border:none;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
   .sync-btn:hover{opacity:0.85}
   .sync-btn:disabled{opacity:0.5;cursor:not-allowed}
+  /* STATS */
   .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:28px}
   .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px}
   .stat-num{font-size:28px;font-weight:600;letter-spacing:-1px}
   .stat-lbl{font-size:11px;color:var(--text2);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px}
   .stat-num.green{color:var(--green)}.stat-num.amber{color:var(--amber)}.stat-num.coral{color:var(--coral)}
+  /* GRID */
   .members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  /* CARD */
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;transition:border-color 0.2s}
   .card:hover{border-color:var(--border2)}
   .card-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
   .avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;letter-spacing:0.5px}
   .member-name{font-size:14px;font-weight:600}
   .member-role{font-size:11px;color:var(--text2);margin-top:1px}
+  .new-tag{display:inline-block;font-size:9px;background:rgba(255,217,61,0.15);color:var(--amber);border:1px solid rgba(255,217,61,0.3);padding:1px 6px;border-radius:8px;margin-left:6px;vertical-align:middle;font-weight:500}
   .tasks-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:8px;display:flex;justify-content:space-between}
   .task-list{list-style:none}
   .task-item{padding:7px 0;border-bottom:1px solid var(--border);transition:opacity 0.3s}
@@ -54,13 +53,11 @@
   .task-cb{width:15px;height:15px;cursor:pointer;accent-color:var(--accent);flex-shrink:0}
   .task-text{flex:1;font-size:12.5px;color:var(--text);line-height:1.4}
   .task-text.done{text-decoration:line-through;color:var(--text3)}
-  /* COLOR CODED STATUS */
   .status-sel{font-size:10px;font-weight:600;border:none;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;outline:none}
   .s-todo{background:rgba(99,110,114,0.2);color:#999}
   .s-wip{background:rgba(184,164,255,0.2);color:var(--purple)}
   .s-done{background:rgba(85,239,196,0.15);color:var(--green)}
   .s-review{background:rgba(255,217,61,0.15);color:var(--amber)}
-  /* TASK EXTRAS */
   .task-actions{display:flex;gap:8px;padding-left:23px;margin-top:4px}
   .task-act-btn{font-size:10px;color:var(--text3);background:none;border:none;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;transition:color 0.15s}
   .task-act-btn:hover{color:var(--text2)}
@@ -81,6 +78,7 @@
   .add-row input::placeholder{color:var(--text3)}
   .add-row button{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:6px 12px;border-radius:var(--radius);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap}
   .add-row button:hover{border-color:var(--accent);color:var(--accent)}
+  /* SECTIONS */
   .section{display:none}.section.active{display:block}
   .dept-header{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
   .dept-count{background:var(--surface2);border:1px solid var(--border);font-size:10px;padding:2px 8px;border-radius:10px;color:var(--text3);font-family:'DM Mono',monospace}
@@ -88,22 +86,54 @@
   .pill{padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:var(--text2);background:transparent;transition:all 0.15s;font-family:'DM Sans',sans-serif}
   .pill:hover{border-color:var(--border2);color:var(--text)}
   .pill.active{border-color:var(--accent);color:var(--accent);background:rgba(200,241,53,0.06)}
+  /* REPORT */
   .report-wrap{max-width:720px}
   .report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;font-family:'DM Mono',monospace;font-size:12px;line-height:2;min-height:300px}
-  .r-head{color:var(--accent);font-weight:500}
-  .r-sep{color:var(--border2)}
-  .r-member{color:var(--text);font-weight:500}
-  .r-todo{color:#777}
-  .r-wip{color:var(--purple)}
-  .r-done{color:var(--green)}
-  .r-review{color:var(--amber)}
-  .r-link{color:var(--blue)}
-  .r-note{color:var(--text3);font-style:italic}
+  .r-head{color:var(--accent);font-weight:500}.r-sep{color:var(--border2)}.r-member{color:var(--text);font-weight:500}
+  .r-todo{color:#777}.r-wip{color:var(--purple)}.r-done{color:var(--green)}.r-review{color:var(--amber)}.r-link{color:var(--blue)}.r-note{color:var(--text3);font-style:italic}
   .report-actions{display:flex;gap:8px;margin-top:12px}
   .btn-outline{padding:8px 18px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:transparent;font-family:'DM Sans',sans-serif;transition:all 0.15s}
   .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
   .btn-solid{padding:8px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:none;color:#0f0f0f;background:var(--accent);font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
   .btn-solid:hover{opacity:0.85}
+  /* TEAM MANAGEMENT */
+  .team-mgmt{max-width:700px}
+  .team-mgmt h3{font-size:15px;font-weight:600;margin-bottom:4px}
+  .team-mgmt p{font-size:12px;color:var(--text2);margin-bottom:20px}
+  .add-member-form{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:24px}
+  .add-member-form h4{font-size:13px;font-weight:500;margin-bottom:14px;color:var(--accent)}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .form-field{display:flex;flex-direction:column;gap:4px}
+  .form-field label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px}
+  .form-field input,.form-field select{background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.15s}
+  .form-field input:focus,.form-field select:focus{border-color:var(--accent)}
+  .form-field input::placeholder{color:var(--text3)}
+  .form-field select option{background:var(--surface2)}
+  .add-btn{background:var(--accent);color:#0f0f0f;border:none;padding:8px 20px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
+  .add-btn:hover{opacity:0.85}
+  /* MEMBER LIST IN SETTINGS */
+  .member-list-settings{display:flex;flex-direction:column;gap:8px}
+  .member-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 16px;transition:border-color 0.2s}
+  .member-row:hover{border-color:var(--border2)}
+  .member-row .avatar-sm{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+  .member-row-info{flex:1}
+  .member-row-name{font-size:13px;font-weight:500}
+  .member-row-meta{font-size:11px;color:var(--text2);margin-top:1px}
+  .dept-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:8px;margin-left:6px;font-weight:500}
+  .remove-btn{background:transparent;border:1px solid var(--border2);color:var(--text3);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap}
+  .remove-btn:hover{border-color:var(--coral);color:var(--coral)}
+  .remove-btn:disabled{opacity:0.3;cursor:not-allowed}
+  /* MODAL CONFIRM */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:28px;max-width:380px;width:90%;text-align:center}
+  .modal h4{font-size:16px;font-weight:600;margin-bottom:8px}
+  .modal p{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6}
+  .modal-actions{display:flex;gap:8px;justify-content:center}
+  .modal-cancel{padding:8px 20px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:transparent;font-family:'DM Sans',sans-serif}
+  .modal-cancel:hover{border-color:var(--text2);color:var(--text)}
+  .modal-confirm{padding:8px 20px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:none;color:#0f0f0f;background:var(--coral);font-family:'DM Sans',sans-serif}
+  /* TOAST */
   .toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transform:translateY(8px);transition:all 0.25s;pointer-events:none;z-index:999}
   .toast.show{opacity:1;transform:translateY(0)}
   .toast.success{border-color:var(--green);color:var(--green)}
@@ -113,6 +143,7 @@
     .logo{width:100%;padding-bottom:10px;margin-bottom:4px}
     .nav-section{display:none}
     .main{margin-left:0;padding:16px}
+    .form-grid{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -130,6 +161,8 @@
     <div class="nav-item" onclick="switchTab('sales',this)"><div class="dot" style="background:var(--amber)"></div>Sales</div>
     <div class="nav-section">Reports</div>
     <div class="nav-item" onclick="switchTab('report',this)"><div class="dot" style="background:var(--coral)"></div>Daily Report</div>
+    <div class="nav-section">Settings</div>
+    <div class="nav-item" onclick="switchTab('team',this)"><div class="dot" style="background:var(--text2)"></div>Team Management</div>
   </nav>
 
   <main class="main">
@@ -140,6 +173,7 @@
         <button class="sync-btn" onclick="saveToSheet()" id="save-btn">↑ Save to Sheet</button>
       </div>
     </div>
+
     <div id="sec-overview" class="section active">
       <div class="stats-row" id="stats-row"></div>
       <div class="filter-row" id="filter-row"></div>
@@ -167,7 +201,7 @@
     </div>
     <div id="sec-report" class="section">
       <div class="report-wrap">
-        <div class="dept-header">Daily Report for Priyanka</div>
+        <div class="dept-header">Daily Report for Priyanks</div>
         <div class="report-box" id="report-box"></div>
         <div class="report-actions">
           <button class="btn-solid" onclick="copyReport()">Copy Report</button>
@@ -175,38 +209,114 @@
         </div>
       </div>
     </div>
+
+    <!-- TEAM MANAGEMENT -->
+    <div id="sec-team" class="section">
+      <div class="team-mgmt">
+        <h3>Team Management</h3>
+        <p>Add new hires or remove team members who have left. Changes reflect across all views instantly.</p>
+
+        <div class="add-member-form">
+          <h4>+ Add New Team Member</h4>
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Full Name</label>
+              <input type="text" id="new-name" placeholder="e.g. Rahul">
+            </div>
+            <div class="form-field">
+              <label>Role / Designation</label>
+              <input type="text" id="new-role" placeholder="e.g. Graphic Designer">
+            </div>
+            <div class="form-field">
+              <label>Department</label>
+              <select id="new-dept">
+                <option value="Social Media">Social Media</option>
+                <option value="Design">Design & Video</option>
+                <option value="Web">Web & Dev</option>
+                <option value="Ads">Paid Ads</option>
+                <option value="Sales">Sales</option>
+                <option value="Management">Management</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Avatar Color</label>
+              <select id="new-color">
+                <option value="purple">Purple</option>
+                <option value="blue">Blue</option>
+                <option value="teal">Teal</option>
+                <option value="green">Green</option>
+                <option value="amber">Amber</option>
+                <option value="coral">Coral</option>
+                <option value="pink">Pink</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-btn" onclick="addMember()">Add to Team</button>
+        </div>
+
+        <div class="dept-header">Current Team <span class="dept-count" id="cnt-team"></span></div>
+        <div class="member-list-settings" id="member-list-settings"></div>
+      </div>
+    </div>
   </main>
 </div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h4>Remove Team Member?</h4>
+    <p id="modal-msg">This will remove the member and all their tasks from the tracker. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-confirm" onclick="confirmRemove()">Yes, Remove</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const SHEET_URL='https://script.google.com/macros/s/AKfycbzGLvieNT3nkbIprqMrRS8AbAYsoaoIPL9nhZkDzOFu_b1z4MKJL6gnKEkL2NsDyjtL/exec';
 
-const MEMBERS=[
+const COLOR_MAP={
+  purple:{color:'#b8a4ff',bg:'rgba(184,164,255,0.12)'},
+  blue:{color:'#74b9ff',bg:'rgba(116,185,255,0.12)'},
+  teal:{color:'#4ecdc4',bg:'rgba(78,205,196,0.12)'},
+  green:{color:'#55efc4',bg:'rgba(85,239,196,0.12)'},
+  amber:{color:'#ffd93d',bg:'rgba(255,217,61,0.12)'},
+  coral:{color:'#ff6b6b',bg:'rgba(255,107,107,0.12)'},
+  pink:{color:'#ff9ff3',bg:'rgba(255,159,243,0.12)'}
+};
+
+let MEMBERS=[
   {id:'bhawneet',name:'Bhawneet',role:'3D Graphics & Video Editor',dept:'Design',color:'#b8a4ff',bg:'rgba(184,164,255,0.12)',initials:'BH'},
   {id:'ankush',name:'Ankush',role:'Graphics, Video & Photoshoots',dept:'Design',color:'#c8a4ff',bg:'rgba(200,164,255,0.12)',initials:'AN'},
+  {id:'vishesh',name:'Vishesh',role:'Video Editor',dept:'Design',color:'#4ecdc4',bg:'rgba(78,205,196,0.12)',initials:'VI',isNew:true},
   {id:'niyati',name:'Niyati',role:'Social Media Manager',dept:'Social Media',color:'#74b9ff',bg:'rgba(116,185,255,0.12)',initials:'NI'},
   {id:'harvindar',name:'Harvindar',role:'Asst. Social Media Manager',dept:'Social Media',color:'#a8d8ff',bg:'rgba(168,216,255,0.12)',initials:'HA'},
-  {id:'yashika',name:'Yashika',role:'Research & Content (Jr.)',dept:'Social Media',color:'#ffd93d',bg:'rgba(255,217,61,0.12)',initials:'YA'},
+  {id:'yashika',name:'Yashika',role:'Research & Content (Jr.)',dept:'Social Media',color:'#ffd93d',bg:'rgba(255,217,61,0.12)',initials:'YA',isNew:true},
   {id:'shrey',name:'Shrey',role:'Paid Media & Operations Manager',dept:'Ads',color:'#55efc4',bg:'rgba(85,239,196,0.12)',initials:'SH'},
   {id:'sumit',name:'Sumit',role:'Web & Software Developer',dept:'Web',color:'#4ecdc4',bg:'rgba(78,205,196,0.12)',initials:'SU'},
   {id:'devesh',name:'Devesh',role:'Sales & Client Acquisition',dept:'Sales',color:'#ffa07a',bg:'rgba(255,160,122,0.12)',initials:'DE'},
-  {id:'Priyanka',name:'Priyanka',role:'Founder, PR Sparkz',dept:'Management',color:'#c8f135',bg:'rgba(200,241,53,0.12)',initials:'PR'}
+  {id:'priyanks',name:'Priyanks',role:'Founder, PR Sparkz',dept:'Management',color:'#c8f135',bg:'rgba(200,241,53,0.12)',initials:'PR'}
 ];
 
 const DEFAULT_TASKS={
-  bhawneet:[{text:'3D product render — Client A',status:'wip',done:false,link:'',note:''},{text:'Video edit — Instagram Reel',status:'todo',done:false,link:'',note:''},{text:'Motion graphics — brand intro',status:'todo',done:false,link:'',note:''}],
-  ankush:[{text:'Design carousel post — Client B',status:'todo',done:false,link:'',note:''},{text:'Schedule photoshoot',status:'wip',done:false,link:'',note:''},{text:'Edit product photos',status:'todo',done:false,link:'',note:''}],
-  niyati:[{text:'Content calendar — Week 3',status:'wip',done:false,link:'',note:''},{text:'Post scheduling — all platforms',status:'todo',done:false,link:'',note:''},{text:'Engagement monitoring',status:'todo',done:false,link:'',note:''}],
-  harvindar:[{text:'Reply to DMs & comments',status:'todo',done:false,link:'',note:''},{text:'Competitor analysis',status:'todo',done:false,link:'',note:''},{text:'Story updates',status:'wip',done:false,link:'',note:''}],
-  yashika:[{text:'Research trending topics',status:'todo',done:false,link:'',note:''},{text:'Captions draft — 5 posts',status:'todo',done:false,link:'',note:''},{text:'Onboarding checklist',status:'wip',done:false,link:'',note:''}],
-  shrey:[{text:'Campaign audit — Meta Ads',status:'wip',done:false,link:'',note:''},{text:'Daily performance report',status:'todo',done:false,link:'',note:''},{text:'Budget optimisation review',status:'todo',done:false,link:'',note:''}],
-  sumit:[{text:'Website updates — Client C',status:'wip',done:false,link:'',note:''},{text:'Landing page build',status:'todo',done:false,link:'',note:''},{text:'Bug fixes — client portal',status:'todo',done:false,link:'',note:''}],
-  devesh:[{text:'Cold calls — 20 prospects',status:'todo',done:false,link:'',note:''},{text:'Follow up with warm leads',status:'wip',done:false,link:'',note:''},{text:'Proposal — prospect X',status:'todo',done:false,link:'',note:''}],
-  Priyanka:[{text:'Strategy review meeting',status:'todo',done:false,link:'',note:''},{text:'Client check-in calls',status:'todo',done:false,link:'',note:''}]
+  bhawneet:[{text:'3D product render — Client A',status:'wip',done:false,link:'',note:''},{text:'Video edit — Instagram Reel',status:'todo',done:false,link:'',note:''}],
+  ankush:[{text:'Design carousel post — Client B',status:'todo',done:false,link:'',note:''},{text:'Schedule photoshoot',status:'wip',done:false,link:'',note:''}],
+  vishesh:[{text:'Edit intro video — Client A',status:'todo',done:false,link:'',note:''},{text:'Reel cut — 30 seconds',status:'todo',done:false,link:'',note:''}],
+  niyati:[{text:'Content calendar — Week 3',status:'wip',done:false,link:'',note:''},{text:'Post scheduling — all platforms',status:'todo',done:false,link:'',note:''}],
+  harvindar:[{text:'Reply to DMs & comments',status:'todo',done:false,link:'',note:''},{text:'Story updates',status:'wip',done:false,link:'',note:''}],
+  yashika:[{text:'Research trending topics',status:'todo',done:false,link:'',note:''},{text:'Captions draft — 5 posts',status:'todo',done:false,link:'',note:''}],
+  shrey:[{text:'Campaign audit — Meta Ads',status:'wip',done:false,link:'',note:''},{text:'Daily performance report',status:'todo',done:false,link:'',note:''}],
+  sumit:[{text:'Website updates — Client C',status:'wip',done:false,link:'',note:''},{text:'Landing page build',status:'todo',done:false,link:'',note:''}],
+  devesh:[{text:'Cold calls — 20 prospects',status:'todo',done:false,link:'',note:''},{text:'Follow up with warm leads',status:'wip',done:false,link:'',note:''}],
+  priyanks:[{text:'Strategy review meeting',status:'todo',done:false,link:'',note:''}]
 };
 
 let tasks=JSON.parse(JSON.stringify(DEFAULT_TASKS));
+let pendingRemoveId=null;
+
 const today=new Date();
 document.getElementById('date-badge').textContent=today.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
 
@@ -215,33 +325,29 @@ function showToast(msg,type=''){
   t.textContent=msg;t.className='toast show '+type;
   setTimeout(()=>t.className='toast',2800);
 }
-
 function sClass(s){return s==='wip'?'s-wip':s==='done'?'s-done':s==='review'?'s-review':'s-todo';}
 function sLabel(s){return s==='wip'?'In Progress':s==='done'?'Done':s==='review'?'Review':'To Do';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function makeInitials(name){return name.trim().split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);}
 
 function sortedTasks(mid){
   const list=(tasks[mid]||[]).map((t,i)=>({...t,_i:i}));
   return [...list.filter(t=>!t.done),...list.filter(t=>t.done)];
 }
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
 function renderCard(m){
   const sorted=sortedTasks(m.id);
   const doneCount=(tasks[m.id]||[]).filter(t=>t.done).length;
   const totalCount=(tasks[m.id]||[]).length;
-
   const items=sorted.map(t=>{
     const i=t._i;
-    const sc=sClass(t.status);
-    const sl=sLabel(t.status);
     const linkHtml=t.link?`<div class="task-meta"><a class="task-link-display" href="${esc(t.link)}" target="_blank">🔗 ${esc(t.link)}</a></div>`:'';
     const noteHtml=t.note?`<div class="task-meta"><div class="task-note-display">💬 ${esc(t.note)}</div></div>`:'';
     return `<li class="task-item${t.done?' is-done':''}" id="ti-${m.id}-${i}">
       <div class="task-main">
         <input type="checkbox" class="task-cb" ${t.done?'checked':''} onchange="toggleTask('${m.id}',${i},this)">
         <span class="task-text${t.done?' done':''}">${esc(t.text)}</span>
-        <select class="status-sel ${sc}" onchange="changeStatus('${m.id}',${i},this)">
+        <select class="status-sel ${sClass(t.status)}" onchange="changeStatus('${m.id}',${i},this)">
           <option value="todo" ${t.status==='todo'?'selected':''}>To Do</option>
           <option value="wip" ${t.status==='wip'?'selected':''}>In Progress</option>
           <option value="done" ${t.status==='done'?'selected':''}>Done</option>
@@ -255,22 +361,21 @@ function renderCard(m){
       </div>
       <div class="task-extras" id="ex-${m.id}-${i}">
         <input type="text" placeholder="✎ Edit task name..." value="${esc(t.text)}" onblur="editTaskText('${m.id}',${i},this.value)" onkeydown="if(event.key==='Enter')this.blur()">
-        <input type="url" placeholder="🔗 Paste reference link (Google Drive, Canva, etc.)..." value="${esc(t.link||'')}" onblur="editTaskLink('${m.id}',${i},this.value)">
+        <input type="url" placeholder="🔗 Paste reference link..." value="${esc(t.link||'')}" onblur="editTaskLink('${m.id}',${i},this.value)">
         <textarea placeholder="💬 Notes or message for collaborator..." onblur="editTaskNote('${m.id}',${i},this.value)">${esc(t.note||'')}</textarea>
       </div>
     </li>`;
   }).join('');
-
   return `<div class="card" id="card-${m.id}" data-dept="${m.dept}">
     <div class="card-head">
       <div class="avatar" style="background:${m.bg};color:${m.color}">${m.initials}</div>
       <div>
-        <div class="member-name">${m.name}${m.isNew?'<span class="new-tag">NEW</span>':''}</div>
-        <div class="member-role">${m.role}</div>
+        <div class="member-name">${esc(m.name)}${m.isNew?'<span class="new-tag">NEW</span>':''}</div>
+        <div class="member-role">${esc(m.role)}</div>
       </div>
     </div>
     <div class="tasks-label"><span>Today's Tasks</span><span>${doneCount}/${totalCount} done</span></div>
-    <ul class="task-list">${items}</ul>
+    <ul class="task-list">${items||'<li style="padding:8px 0;font-size:12px;color:var(--text3)">No tasks yet — add one below</li>'}</ul>
     <div class="add-row">
       <input type="text" placeholder="Add a task..." id="inp-${m.id}" onkeydown="if(event.key==='Enter')addTask('${m.id}')">
       <button onclick="addTask('${m.id}')">+ Add</button>
@@ -278,19 +383,17 @@ function renderCard(m){
   </div>`;
 }
 
-function toggleExtras(mid,i){
-  document.getElementById(`ex-${mid}-${i}`).classList.toggle('open');
-}
-
 function renderAll(){
   const depts={social:'Social Media',design:'Design',web:'Web',ads:'Ads',sales:'Sales'};
   document.getElementById('overview-grid').innerHTML=MEMBERS.map(renderCard).join('');
   Object.entries(depts).forEach(([key,dept])=>{
     const filtered=MEMBERS.filter(m=>m.dept===dept||(key==='ads'&&m.id==='shrey'));
-    document.getElementById(`${key}-grid`).innerHTML=filtered.map(renderCard).join('');
-    document.getElementById(`cnt-${key}`).textContent=filtered.length+' members';
+    const el=document.getElementById(`${key}-grid`);
+    const cnt=document.getElementById(`cnt-${key}`);
+    if(el)el.innerHTML=filtered.map(renderCard).join('');
+    if(cnt)cnt.textContent=filtered.length+' members';
   });
-  renderStats();renderFilters();
+  renderStats();renderFilters();renderTeamList();
 }
 
 function renderStats(){
@@ -313,6 +416,72 @@ function renderFilters(){
   ).join('');
 }
 
+const DEPT_COLORS={
+  'Social Media':'#74b9ff','Design':'#b8a4ff','Web':'#4ecdc4',
+  'Ads':'#55efc4','Sales':'#ffa07a','Management':'#c8f135'
+};
+
+function renderTeamList(){
+  const cnt=document.getElementById('cnt-team');
+  const list=document.getElementById('member-list-settings');
+  if(!cnt||!list)return;
+  cnt.textContent=MEMBERS.length+' members';
+  list.innerHTML=MEMBERS.map(m=>{
+    const dc=DEPT_COLORS[m.dept]||'#888';
+    const isProtected=m.id==='priyanks'||m.id==='shrey';
+    return `<div class="member-row">
+      <div class="avatar-sm" style="background:${m.bg};color:${m.color}">${m.initials}</div>
+      <div class="member-row-info">
+        <div class="member-row-name">${esc(m.name)}${m.isNew?'<span class="new-tag">NEW</span>':''}
+          <span class="dept-tag" style="background:${dc}22;color:${dc}">${m.dept}</span>
+        </div>
+        <div class="member-row-meta">${esc(m.role)}</div>
+      </div>
+      <button class="remove-btn" onclick="promptRemove('${m.id}')" ${isProtected?'disabled title="Cannot remove founder or operations manager"':''}>
+        ${isProtected?'🔒 Protected':'Remove'}
+      </button>
+    </div>`;
+  }).join('');
+}
+
+// ADD MEMBER
+function addMember(){
+  const name=document.getElementById('new-name').value.trim();
+  const role=document.getElementById('new-role').value.trim();
+  const dept=document.getElementById('new-dept').value;
+  const colorKey=document.getElementById('new-color').value;
+  if(!name||!role){showToast('Please fill in name and role','error');return;}
+  const id=name.toLowerCase().replace(/\s+/g,'_')+'_'+Date.now();
+  const {color,bg}=COLOR_MAP[colorKey];
+  const initials=makeInitials(name);
+  MEMBERS.push({id,name,role,dept,color,bg,initials,isNew:true});
+  tasks[id]=[];
+  document.getElementById('new-name').value='';
+  document.getElementById('new-role').value='';
+  renderAll();
+  showToast(`${name} added to the team! 🎉`,'success');
+}
+
+// REMOVE MEMBER
+function promptRemove(mid){
+  const m=MEMBERS.find(x=>x.id===mid);
+  pendingRemoveId=mid;
+  document.getElementById('modal-msg').textContent=`This will remove ${m.name} (${m.role}) and all their tasks from the tracker. This cannot be undone.`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');pendingRemoveId=null;}
+function confirmRemove(){
+  if(!pendingRemoveId)return;
+  const m=MEMBERS.find(x=>x.id===pendingRemoveId);
+  MEMBERS=MEMBERS.filter(x=>x.id!==pendingRemoveId);
+  delete tasks[pendingRemoveId];
+  closeModal();
+  renderAll();
+  showToast(`${m.name} removed from the team`,'');
+}
+
+function toggleExtras(mid,i){document.getElementById(`ex-${mid}-${i}`).classList.toggle('open');}
+
 function toggleTask(mid,idx,el){
   tasks[mid][idx].done=el.checked;
   if(el.checked)tasks[mid][idx].status='done';
@@ -333,18 +502,11 @@ function addTask(mid){
   if(!txt)return;
   if(!tasks[mid])tasks[mid]=[];
   tasks[mid].push({text:txt,status:'todo',done:false,link:'',note:''});
-  inp.value='';
-  renderAll();
+  inp.value='';renderAll();
 }
 
-function deleteTask(mid,idx){
-  tasks[mid].splice(idx,1);
-  renderAll();
-}
-
-function editTaskText(mid,idx,val){
-  if(val.trim()){tasks[mid][idx].text=val.trim();renderAll();}
-}
+function deleteTask(mid,idx){tasks[mid].splice(idx,1);renderAll();}
+function editTaskText(mid,idx,val){if(val.trim()){tasks[mid][idx].text=val.trim();renderAll();}}
 function editTaskLink(mid,idx,val){tasks[mid][idx].link=val.trim();}
 function editTaskNote(mid,idx,val){tasks[mid][idx].note=val.trim();}
 
@@ -356,7 +518,7 @@ function filterDept(dept,el){
   });
 }
 
-const titles={overview:'All Members',social:'Social Media',design:'Design & Video',web:'Web & Dev',ads:'Paid Ads',sales:'Sales',report:'Daily Report'};
+const titles={overview:'All Members',social:'Social Media',design:'Design & Video',web:'Web & Dev',ads:'Paid Ads',sales:'Sales',report:'Daily Report',team:'Team Management'};
 function switchTab(tab,el){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
@@ -364,37 +526,34 @@ function switchTab(tab,el){
   document.getElementById('sec-'+tab).classList.add('active');
   document.getElementById('page-title').textContent=titles[tab];
   if(tab==='report')generateReport();
+  if(tab==='team')renderTeamList();
 }
 
 function generateReport(){
   const d=today.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
-  const depts=[
-    {label:'SOCIAL MEDIA',ids:['niyati','harvindar','yashika']},
-    {label:'DESIGN & VIDEO',ids:['bhawneet','ankush']},
-    {label:'WEB & DEVELOPMENT',ids:['sumit']},
-    {label:'PAID MEDIA & ADS',ids:['shrey']},
-    {label:'SALES',ids:['devesh']}
-  ];
+  const deptGroups={};
+  MEMBERS.forEach(m=>{
+    if(m.id==='priyanks')return;
+    if(!deptGroups[m.dept])deptGroups[m.dept]=[];
+    deptGroups[m.dept].push(m);
+  });
   const box=document.getElementById('report-box');
   box.innerHTML='';
   function line(text,cls){const d=document.createElement('div');if(cls)d.className=cls;d.textContent=text;box.appendChild(d);}
   function br(){box.appendChild(document.createElement('br'));}
-
   line('PR SPARKZ — DAILY WORK UPDATE','r-head');
   line('Date: '+d,'r-head');
   line('Prepared by: Shrey (Operations Manager)','r-head');
   br();
-  depts.forEach(dept=>{
-    line('── '+dept.label+' ──────────────────','r-sep');
-    dept.ids.forEach(id=>{
-      const m=MEMBERS.find(x=>x.id===id);
+  Object.entries(deptGroups).forEach(([dept,members])=>{
+    line('── '+dept.toUpperCase()+' ──────────────────','r-sep');
+    members.forEach(m=>{
       br();
       line(m.name+'  ·  '+m.role,'r-member');
-      (tasks[id]||[]).forEach(t=>{
+      (tasks[m.id]||[]).forEach(t=>{
         const icon=t.done?'✓':t.status==='wip'?'→':t.status==='review'?'◎':'○';
-        const label=sLabel(t.status);
         const cls=t.done?'r-done':t.status==='wip'?'r-wip':t.status==='review'?'r-review':'r-todo';
-        line('  '+icon+'  ['+label+']  '+t.text,cls);
+        line('  '+icon+'  ['+sLabel(t.status)+']  '+t.text,cls);
         if(t.link)line('       🔗 '+t.link,'r-link');
         if(t.note)line('       💬 '+t.note,'r-note');
       });
@@ -406,8 +565,8 @@ function generateReport(){
 }
 
 function copyReport(){
-  const txt=document.getElementById('report-box').innerText;
-  navigator.clipboard.writeText(txt).then(()=>showToast('Report copied!','success'));
+  navigator.clipboard.writeText(document.getElementById('report-box').innerText)
+    .then(()=>showToast('Report copied!','success'));
 }
 
 async function loadFromSheet(){
